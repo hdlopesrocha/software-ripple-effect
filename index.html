@@ -1,0 +1,76 @@
+<html>
+	<head>
+		 <script src="vendor/perlin.js"></script> 
+		 <script src="draw.js"></script> 
+     <script src="vendor/jquery-3.3.1.min.js"></script>
+	</head>
+
+		<body>
+			<canvas class="inner" id="myCanvas" width="480" height="480" ></canvas>
+		 	<img style="display: none;" id="img" src="bg.png" width="480" height="480">
+		<style>
+
+	</style>
+
+
+		<script>
+			var myCanvas;	
+			var time = 0;
+			var isPlaying = false;
+			var imageCanvas = null;
+			var image;
+
+
+			function onError(event) {
+				console.log("error", event);				
+			}
+
+
+
+			$(document).ready(function() {
+
+				myCanvas = document.getElementById("myCanvas");
+
+
+    			image  = document.getElementById("img");
+			    imageCanvas = document.createElement("canvas");
+
+			    imageCanvas.width  = image.width;
+			    imageCanvas.height = image.height;
+
+			    var context = imageCanvas.getContext("2d");
+
+			    context.drawImage(image, 0, 0, image.width, image.height);
+
+
+				function update(progress){
+					time += progress;
+				}
+
+				function draw() {
+					clearCanvas(myCanvas); 
+					drawPerlinToCanvas(myCanvas, imageCanvas, time); 
+				}
+
+				function loop(timestamp) {
+					var progress = timestamp - lastRender;
+
+					update(progress);
+					draw();
+
+					lastRender = timestamp;
+					window.requestAnimationFrame(loop);
+				}
+				var lastRender = 0;
+				window.requestAnimationFrame(loop);
+
+
+			});
+	
+
+		
+
+
+		</script>
+	</body>
+</html>
